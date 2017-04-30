@@ -11,7 +11,6 @@ public class principal extends Thread {
         this.ini=ini;
         this.fin=fin;
     }
-    
     public void run(){
         for(int i =ini; i< fin; i++){//ini =0, fin=4
             vec[i]*=10;
