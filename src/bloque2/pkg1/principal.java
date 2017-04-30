@@ -4,8 +4,9 @@ import java.util.Random;
 
 public class principal implements Runnable{
     private int id;
-    private static Random cerrojo = new Random();
-    private static int cont=0;
+    private static Random cerrojoA = new Random();
+    private static Thread cerrojoB = new Thread();
+
 
     public principal(int id){
         this.id= id;
@@ -15,7 +16,8 @@ public class principal implements Runnable{
         Runtime runtime = Runtime.getRuntime();
         int nNucleos = runtime.availableProcessors();
         
-        Thread[] hilos = new Thread[nNucleos];
+        //Thread[] hilos = new Thread[nNucleos];
+        Thread[] hilos = new Thread[8];
       
         for (int i =0; i<hilos.length;i++){
             Runnable runnable= new principal(i);
@@ -34,17 +36,28 @@ public class principal implements Runnable{
 
     @Override
     public void run() {
-        synchronized(cerrojo){
-            while(id!= cont){
-                try{
-                    cerrojo.wait();//dormimos un hilo
-                }catch (Exception e){}
+        //interbloqueo
+        if( id % 2== 0){
+            synchronized(cerrojoA){ //Activo: h0 Cola: h1 //50% de pos que ocurra interbloqueo
+                mostrarA();
             }
-            System.out.println("Soy el hilo: "+id);
-            cont++;
-            cerrojo.notifyAll();//se despiertan los hilos
-            
+        }
+        else{
+            synchronized(cerrojoB){ //Activo:h1 Cola:  h3 h0
+                mostrarB();
+            }
         }
     }
     
+    private void mostrarA(){
+        synchronized(cerrojoB){
+            System.out.println("Soy el hilo: "+id); //h2
+        }
+    }
+    
+    private void mostrarB(){
+        synchronized(cerrojoA){
+            System.out.println("Soy el hilo: " +id);
+        }
+    }
 }
