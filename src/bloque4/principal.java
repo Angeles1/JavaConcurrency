@@ -7,8 +7,8 @@ public class principal implements Runnable{
     
     @Override
     public void run() {
-        mon.inc();
-        System.out.println(mon.getCont());
+        int cont= mon.inc();
+        System.out.println(cont);
     }
     public static void main(String[] args) {
         Runtime runtime= Runtime.getRuntime();
