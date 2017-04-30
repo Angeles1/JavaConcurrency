@@ -27,9 +27,9 @@ public class principal implements Runnable{
 
     @Override
     public void run() {
-        for(int i =0; i<20000;i++){
-            //Activo: h1 Cola: h4, h3, h2 synchronized los despierta cuando h1 sale vuelve a la cola y el mas rapido entra y bloquea
-            synchronized(object){ //resuelve el problema de la exclusion mutua, region critica controlada
+        synchronized(object){ //resuelve el problema de la exclusion mutua, region critica controlada
+        //Activo: h1 Cola: h4, h3, h2 synchronized los despierta cuando h1 sale vuelve a la cola y el mas rapido entra y bloquea
+            for(int i =0; i<20000;i++){
                cont++; 
             }
         }
