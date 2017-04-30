@@ -31,7 +31,7 @@ public class principal implements Runnable{
         }
         tiempo_inicio= System.nanoTime();
         
-        ExecutorService pool = Executors.newFixedThreadPool(4);
+        ExecutorService pool = Executors.newCachedThreadPool();
         
         for(int i =0; i<tam; i++){
             Runnable runnable = new principal(i);
