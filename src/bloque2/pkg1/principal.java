@@ -6,6 +6,9 @@ public class principal implements Runnable{
     private int id;
     private static Random cerrojoA = new Random();
     private static Thread cerrojoB = new Thread();
+    
+    private int cont_private = 0; // no compartida!
+    private static int cont=0;
 
 
     public principal(int id){
@@ -30,34 +33,19 @@ public class principal implements Runnable{
                 hilos[i].join(); 
             }catch (Exception e){}
         }
-        System.out.println("Soy el hilo principal");
+        System.out.println("Soy el hilo principal, la variable cont vale: "+cont);
 
     }
 
     @Override
     public void run() {
-        //interbloqueo
-        if( id % 2== 0){
-            synchronized(cerrojoA){ //Activo: h0 Cola: h1 //50% de pos que ocurra interbloqueo
-                mostrarA();
-            }
+        for(int i =0; i<20000 ;i++){ //cada hilo hace el bucle simultaneamente incrementano su variable privada
+            cont_private++; //private al final = 20.000
         }
-        else{
-            synchronized(cerrojoB){ //Activo:h1 Cola:  h3 h0
-                mostrarB();
-            }
-        }
-    }
-    
-    private void mostrarA(){
-        synchronized(cerrojoB){
-            System.out.println("Soy el hilo: "+id); //h2
-        }
-    }
-    
-    private void mostrarB(){
+  
         synchronized(cerrojoA){
-            System.out.println("Soy el hilo: " +id);
+            cont+=cont_private; //sumamos con sincronizacion la variables privada de cada hilo en orden!
         }
     }
+    
 }
