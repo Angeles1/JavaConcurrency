@@ -31,7 +31,6 @@ public class principal extends Thread {
                 matriz[i][j] = rand.nextInt(10);
             }
         }
-        
         //empiezo a medir el tiempo
         tiempo_inicio= System.nanoTime(); //obtenemos el hora actual en nanosegundos
         
