@@ -1,8 +1,11 @@
 package bloque2.pkg1;
 
 public class principal implements Runnable{
-    private static int cont=0;
-    private static Object object= new Object();//cerrojo para synchronized
+    private int id;
+    
+    public principal(int id){
+        this.id= id;
+    }
  
     public static void main(String[] args) {
         Runtime runtime = Runtime.getRuntime();
@@ -11,7 +14,7 @@ public class principal implements Runnable{
         Thread[] hilos = new Thread[nNucleos];
       
         for (int i =0; i<hilos.length;i++){
-            Runnable runnable= new principal();
+            Runnable runnable= new principal(i+1);
             hilos[i]=new Thread(runnable);
             hilos[i].start();
         }
@@ -21,19 +24,13 @@ public class principal implements Runnable{
                 hilos[i].join(); 
             }catch (Exception e){}
         }
-        System.out.println(cont);
+        System.out.println("Soy el hilo principal");
 
     }
 
     @Override
     public void run() {
-        synchronized(object){ //resuelve el problema de la exclusion mutua, region critica controlada
-        //Activo: h1 Cola: h4, h3, h2 synchronized los despierta cuando h1 sale vuelve a la cola y el mas rapido entra y bloquea
-            for(int i =0; i<20000;i++){
-               cont++; 
-            }
-        }
-        System.out.println("hola");
+        System.out.println("Soy el hilo: "+ id);
     }
     
 }
