@@ -1,33 +1,39 @@
 package bloque2.pkg1;
+//multiplicar todos los elementos de una matriz de forma concurrente y medir el tiempo
+//emplear técnica en Matrices
 
 import java.util.Random;
 
 public class principal extends Thread {
-    //declaracion del vector estatico para que varios hilos accedan a el
-    private static int tam=8;
-    private static int[] vec = new int[tam];
-    private int ini,fin;
+    private static int tam = 4;
+    private static int[][] matriz = new int[tam][tam];
+    int ini, fin;
+    //constructor
     public principal(int ini, int fin){
         this.ini=ini;
         this.fin=fin;
     }
     
     public void run(){
-        for(int i =ini; i< fin; i++){//ini =0, fin=4
-            vec[i]*=10;
+        for(int i = ini; i< fin;i++){ //bucle acotado para que no tener indeterminismo
+            for(int j = 0; j<matriz[0].length; j++){
+                matriz[i][j]*=10;
+            }
         }
     }
-    /**
-     * @param args the command line arguments
-     */
+ 
     public static void main(String[] args) {
-        // TODO code application logic here
-        Random rand=new Random(System.nanoTime());
-        for (int i =0; i< vec.length;i++){
-            vec[i]= rand.nextInt(10);
+        //inicializar la matriz
+        Random rand = new Random(System.nanoTime());
+        
+        for(int i=0; i< matriz.length; i++){
+            for(int j=0; j< matriz[0].length;j++){
+                matriz[i][j] = rand.nextInt(10);
+            }
         }
-        principal h1 = new principal(0,4);
-        principal h2= new principal(4, vec.length);
+        
+        principal h1 = new principal(0,2);
+        principal h2 = new principal(2,matriz.length);
         
         h1.start();
         h2.start();
@@ -35,11 +41,15 @@ public class principal extends Thread {
         try{
             h1.join();
             h2.join();
-        }catch (Exception e){}
-        
-        for (int i =0; i< vec.length; i++){
-            System.out.print(vec[i]+" ");
+        }catch(Exception e){}
+        //mostrar la matriz con el hilo principal cuando ya se ha modificado con los otros hilos
+        for(int i=0; i<matriz.length;i++){
+            for (int j=0; j<matriz[0].length;j++){
+                System.out.print(matriz[i][j]+" ");
+            }
+            System.out.println();
         }
+                
     }
     
 }
