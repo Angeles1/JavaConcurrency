@@ -10,13 +10,14 @@ import java.util.concurrent.Executors;
 */
 public class principal {
 
+    @SuppressWarnings("empty-statement")
     public static void main(String[] args) {
         int participantes =100;
         Carrera.setCarrera(participantes);
         Runtime runtime =Runtime.getRuntime();
         int nNucleos =runtime.availableProcessors();
         
-        ExecutorService pool = Executors.newFixedThreadPool(nNucleos);
+        ExecutorService pool = Executors.newCachedThreadPool();
         for(int i =0; i< participantes; i++){
             Runnable runnable = new Carrera(i);
             pool.execute(runnable);
@@ -57,7 +58,11 @@ public class principal {
                 idGanador3=i;
             } 
         }
-        System.out.println("");
+        System.out.println("El ganador es el hilo: "+idGanador);
+        System.out.println("El ganador de la Etapa 1 es el hilo: "+idGanador1);
+        System.out.println("El ganador de la Etapa 2 es el hilo: "+idGanador2);
+        System.out.println("El ganador de la Etapa 3 es el hilo: "+idGanador3);
+
 
     }
     

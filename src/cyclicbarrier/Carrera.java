@@ -23,22 +23,28 @@ public class Carrera implements Runnable {
     
     @Override
     public void run() {
-        //Etapa1
+     etapa(0);
+     etapa(1);
+     etapa(2);
+     
+     tiempos[id][3]= tiempos[id][0] + tiempos[id][1] + tiempos[id][2];
+    }
+    
+    private void etapa(int numEtapa){
         inicio= System.nanoTime();
-        
         try{
             Thread.sleep(rand.nextInt(100)+100);
         }catch (Exception e){}
         
         total = System.nanoTime()-inicio;
-        tiempos[id][0] = total;
+        tiempos[id][numEtapa] = total;
         
         try{
             barrera.await();
+            barrera.reset();
         }catch(Exception e){}
-        
-        
     }
+    
     public static double[][] getTiempos(){
         return tiempos;
     }
