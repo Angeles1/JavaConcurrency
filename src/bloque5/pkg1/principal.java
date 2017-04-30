@@ -7,16 +7,23 @@ public class principal {
     public static void main(String[] args) {
         Runtime runtime= Runtime.getRuntime();
         int nNucleos=runtime.availableProcessors();
-        
+        //Synchronized
         Thread[] vec = new Thread[nNucleos];
         
         lanzarSynchro(vec);
         esperarHilos(vec);
         
         System.out.println(Synchro.getCont());
-        
+        //Atomic
         vec = new Thread[nNucleos];
         lanzarAtomic(vec);
+        esperarHilos(vec);
+        System.out.println(Atomic.getCont());
+        
+        
+        //ReentrantLook
+        vec = new Thread[nNucleos];
+        lanzarReentrant(vec);
         esperarHilos(vec);
         System.out.println(Atomic.getCont());
         
@@ -38,6 +45,15 @@ public class principal {
             vec[i].start();
         }
     }
+    
+    private static void lanzarReentrant(Thread[] vec){
+        for (int i =0; i< vec.length; i++){
+            Runnable run = new Reentrant();
+            vec[i]= new Thread(run);
+            vec[i].start();
+        }
+    }
+    
     
     private static void esperarHilos(Thread[] vec){
         try{
