@@ -20,10 +20,7 @@ public class principal implements Runnable{
             int elemento;
             while(true){
                 elemento= buf.leer();
-                
-                if(elemento != -1){
-                    System.out.println("El elemento extraido del buffer es: "+elemento);
-                }
+                System.out.println("El elemento extraido del buffer es: "+elemento);
                 try {
                     Thread.sleep(400);//dormir un segundo
                 } catch (InterruptedException ex) {}

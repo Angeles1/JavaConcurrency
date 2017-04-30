@@ -15,32 +15,29 @@ public class buffer {
     
     public synchronized int leer(){
         int elemento = -1;
-        if(pos<0){
+        while(pos<0){
             try{
                 System.out.println("El vector esta vacio y el consumidor se va a dormir");
                 wait();
             }catch(Exception e){}
         }
-        else{
-            elemento = cola.get(pos);
-            cola.remove(pos);
-            pos--;
-        }
+        elemento = cola.get(pos);
+        cola.remove(pos);
+        pos--;
+        
         return elemento;
     }
     
     public synchronized void escribir(){
         pos++;
-        if(pos>=tam){
+        while(pos>=tam){
             try{
                 System.out.println("El vector esta lleno");
                 pos--;
             }catch(Exception e){}
         }
-        else{
-            cola.add(generar());
-            notifyAll();
-        }
+        cola.add(generar()); //comportamiento de reentrancia, no se interbloquea con generar
+        notifyAll();
         
     }
     
