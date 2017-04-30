@@ -25,12 +25,16 @@ public class principal extends Thread {
     public static void main(String[] args) {
         //inicializar la matriz
         Random rand = new Random(System.nanoTime());
+        double tiempo_inicio, tiempo_final;
         
         for(int i=0; i< matriz.length; i++){
             for(int j=0; j< matriz[0].length;j++){
                 matriz[i][j] = rand.nextInt(10);
             }
         }
+        
+        //empiezo a medir el tiempo
+        tiempo_inicio= System.nanoTime(); //obtenemos el hora actual en nanosegundos
         
         principal h1 = new principal(0,2);
         principal h2 = new principal(2,matriz.length);
@@ -42,6 +46,11 @@ public class principal extends Thread {
             h1.join();
             h2.join();
         }catch(Exception e){}
+        
+        //tiempo que ha tardado en ejecutar la concurrencia
+        tiempo_final = System.nanoTime()- tiempo_inicio; //hora final - hora comienzo
+        System.out.println((tiempo_final/1000000)+" milisegundos");
+        
         //mostrar la matriz con el hilo principal cuando ya se ha modificado con los otros hilos
         for(int i=0; i<matriz.length;i++){
             for (int j=0; j<matriz[0].length;j++){
