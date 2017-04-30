@@ -4,14 +4,20 @@ public class principal implements Runnable{
     
  
     public static void main(String[] args) {
-      Runnable runnable = new principal();
-      Thread hilo1 = new Thread(runnable);
-      hilo1.start();
+      Thread[] hilos = new Thread[2];
       
-      try{
-          hilo1.join();
-      }catch (Exception e){}
-
+      for (int i =0; i<hilos.length;i++){
+          Runnable runnable= new principal();
+          hilos[i]=new Thread(runnable);
+          hilos[i].start();
+      }
+      
+      for(int i=0; i<hilos.length;i++){
+        try{
+            hilos[i].join(); 
+        }catch (Exception e){}
+        
+        }
     }
 
     @Override
