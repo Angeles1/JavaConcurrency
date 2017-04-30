@@ -13,7 +13,6 @@ public class principal extends Thread {
         this.ini=ini;
         this.fin=fin;
     }
-    
     public void run(){
         for(int i = ini; i< fin;i++){ //bucle acotado para que no tener indeterminismo
             for(int j = 0; j<matriz[0].length; j++){
