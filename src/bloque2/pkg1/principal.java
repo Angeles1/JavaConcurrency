@@ -4,7 +4,7 @@ import java.util.Random;
 
 
 public class principal extends Thread {
-    private static int tam= 8;
+    private static int tam= 15;
     private static int[][]matriz = new int[tam][tam];
     private int ini, fin;
     
@@ -37,17 +37,23 @@ public class principal extends Thread {
         }
         //vector de hilos para optimizar la creacion segun el numero de nuestros procesadores logicos
         Thread[] hilos = new Thread[nNucleos];
-        
+        //bug para numero impares
         int rango = tam/nNucleos; //rango en el que va a operar el hilo
         int start= 0;
         int finish = rango;
         
         for (int i =0; i< nNucleos ; i++){
-            hilos[i] = new principal(start,finish);
-            hilos[i].start();
+            if(i != nNucleos -1){
+                hilos[i] = new principal(start,finish);
+                hilos[i].start();
             
-            start= finish;
-            finish+=rango;
+                start= finish;
+                finish+=rango;
+            }
+            else{
+                hilos[i] = new principal(start,tam);
+                hilos[i].start();
+            }
         }
         
         for (int i =0; i<nNucleos; i++){
